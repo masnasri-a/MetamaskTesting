@@ -1,0 +1,35 @@
+#connect {
+    float: right;
+    margin-top: 3rem;
+}
+
+#imagesMetamask {
+    margin-top: 15rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#imagesMetamaskMain {
+    margin-top: 5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4rem;
+}
+
+.alert {
+    text-align: center;
+}
+
+.main {
+    display: none;
+}
+
+.card-body {
+    box-shadow: 5px 5px 5px grey;
+}
+
+.btn-card {
+    float: right;
+}
