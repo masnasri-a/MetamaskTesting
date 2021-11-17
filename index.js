@@ -1,12 +1,15 @@
 "use strict";
 
+// const { Provider } = require("web3modal");
+
 // import Web3 from "web3";
 // import Web3Modal from "web3modal";
 
-const Web3Modal = window.Web3Modal.default;
+// const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 const Fortmatic = window.Fortmatic;
 const evmChains = window.evmChains;
+const eth = Math.pow(10, 18);
 
 window.userWalletAddress = null
 const loginBtn = document.getElementById('connect')
@@ -22,28 +25,7 @@ const personalSigns = document.getElementById('personalSignBtn')
 let isLogin = false
 let mainAccount = null
 
-function init() {
-    const providerOptions = {
-        walletconnect: {
-            package: WalletConnectProvider,
-            options: {
-                infuraId: "041cd0772a109ba00d9e19a330513878",
-            }
-        }
-    };
 
-    const web3modal = await new Web3Modal({
-        providerOptions,
-        disableInjectedProvider: false,
-        cacheProvider: false,
-    });
-    console.log("Web3Modal instance is", web3modal);
-
-}
-
-async function onConnect() {
-
-}
 
 function toggleBtn() {
     if (!window.ethereum) {
@@ -53,7 +35,7 @@ function toggleBtn() {
         return false
     }
     loginBtn.addEventListener('click', loginWithMetaMask)
-    w3mBtn.addEventListener('click', w3mFunction)
+        // w3mBtn.addEventListener('click', modal)
     ethereum.on('accountsChanged', changedAccounts)
     ethereum.on('chainChanged', changedAccounts)
     sendTrans.addEventListener('click', sendTransaction)
@@ -61,17 +43,48 @@ function toggleBtn() {
     personalSigns.addEventListener('click', personalSignFunc)
 }
 
+// async function modal() {
+//     try {
+//         const providerOptions = {
+//             walletconnect: {
+//                 package: WalletConnectProvider,
+//                 options: {
+//                     infuraId: "041cd0772a109ba00d9e19a330513878",
+//                 }
+//             }
+//         };
+
+//         const web3modal = new Web3Modal({
+//             providerOptions,
+//             disableInjectedProvider: false,
+//             cacheProvider: false,
+//         })
+//         console.log("Web3Modal instance is", web3modal);
+
+//         const provider = await web3modal.connect();
+
+//         const web3 = new Web3(provider);
+
+//         console.log("Web3 instance is", web3);
+
+//         // Get connected chain id from Ethereum node
+//         const chainId1 = await web3.eth.getAccounts();
+//         // Load chain information over an HTTP API
+//         console.log(chainId1)
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 
 
 
 async function personalSignFunc() {
     let messages = document.getElementById('personalAlert').innerHTML
-    params = [
-        messages.toString(16),
-        document.getElementById('personal-address').value
-    ]
+
     let sign = await ethereum.request({
-        'params': params,
+        'params': [messages.toString(16),
+            document.getElementById('personal-address').value
+        ],
         'method': 'personal_sign'
     }).catch((error) => console.log(error))
 
@@ -91,7 +104,6 @@ async function personalSignFunc() {
     } else {
         allert = "Tidak Berhasil Sign dan Verify"
         document.getElementById('personalAlert').innerHTML = allert
-
     }
 }
 
@@ -103,17 +115,23 @@ async function balanceChecks() {
         'params': [address, "latest"]
     }).then((txHash) => val = txHash).catch((error) => console.log(error))
     console.log(val)
-    document.getElementById('balanceAlert').innerHTML = parseInt(val, 16) / 1000000000000000000 + " ETH";
-
+    document.getElementById('balanceAlert').innerHTML = parseInt(val, 16) / Math.pow(10, 18) + " ETH";
 }
 
 function sendTransaction() {
     let addressTrans = document.getElementById('trans-address').value
     let totalEthSend = document.getElementById('trans-eth').value
+    let values;
+    if (totalEthSend.indexOf("0x") > -1) {
+        values = totalEthSend
+    } else {
+        values = "0x" + ((totalEthSend) * eth).toString(16)
+    }
+    console.log(values)
     let params = [{
         from: mainAccount,
         to: addressTrans,
-        value: "0x" + (parseInt(totalEthSend) * 1000000000000000000).toString(16),
+        value: values,
     }, ]
 
     ethereum.request({
@@ -125,12 +143,9 @@ function sendTransaction() {
     console.log(params)
 }
 
-
 function changedAccounts() {
     loginWithMetaMask()
-
 }
-
 
 async function loginWithMetaMask() {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -170,7 +185,8 @@ function signOutOfMetaMask() {
     window.userWalletAddress = null
     userWallet.innerText = ''
     loginBtn.innerText = 'Sign in with MetaMask'
-
+    images.style.display = "";
+    main.style.display = "none";
     loginBtn.removeEventListener('click', signOutOfMetaMask)
     setTimeout(() => {
         loginBtn.addEventListener('click', loginWithMetaMask)

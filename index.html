@@ -4,7 +4,7 @@
 <head>
     <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
+    <!-- <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script> -->
     <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/fortmatic@2.0.6/dist/fortmatic.js"></script>
@@ -18,7 +18,7 @@
 
 <body>
     <div class="container mx-auto">
-        <button type="submit" id="connectW3m" onclick="" class="btn btn-outline-primary">Test Web3Modal</button>
+        <!-- <button type="submit" id="connectW3m" onclick="" class="btn btn-outline-primary">Test Web3Modal</button> -->
         <button type="submit" id="connect" onclick="" class="btn btn-outline-primary">Login Into Metamask</button>
         <br>
         <br>
@@ -27,7 +27,7 @@
         <div class="main" id="main">
             <br>
             <h2 style="text-align: center;">Ethereum P2P Testing</h2>
-            <img id="imagesMetamaskMain" src="metamask.svg" alt="">
+            <center><img id="imagesMetamaskMain" src="metamask.svg" alt=""></center>
             <div class="row" style="margin-bottom: 5rem;">
                 <div class="col-3">
                     <div id='chainId' class="alert alert-success" role="alert"></div>
@@ -50,7 +50,7 @@
                                         <input id="trans-address" type="text" class="form-control" placeholder="Address Target" aria-label="Username" aria-describedby="basic-addon1">
                                     </div>
                                     <div class="input-group mb-3">
-                                        <input id="trans-eth" type="number" class="form-control" placeholder="Eth Send" aria-label="Username" aria-describedby="basic-addon1">
+                                        <input id="trans-eth" type="text" class="form-control" placeholder="Eth Send" aria-label="Username" aria-describedby="basic-addon1">
                                         <span class="input-group-text"> ETH</span>
                                     </div>
                                     <button id="sendBtn" type="button" class="btn btn-primary btn-card">Send</button>
@@ -69,7 +69,7 @@
                                         <input id="balance-address" type="text" class="form-control" placeholder="Address" aria-label="Username" aria-describedby="basic-addon1">
                                     </div>
                                     <div id="balanceAlert" class="alert alert-info" role="alert">
-
+                                        Balance
                                     </div>
                                     <button id="balanceBtn" type="button" class="btn btn-primary btn-card">Check</button>
                                 </form>
